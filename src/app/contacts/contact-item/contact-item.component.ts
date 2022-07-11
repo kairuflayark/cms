@@ -9,7 +9,7 @@ import { Contact } from '../contact.model';
 export class ContactItemComponent implements OnInit {
 
   constructor() { }
-  @Input('contact') contact:Contact = new Contact(0,'','','','',[])
+  @Input('contact') contact!:Contact
   @Output() selectedContactEvent:EventEmitter<Contact> = new EventEmitter();
 
 
