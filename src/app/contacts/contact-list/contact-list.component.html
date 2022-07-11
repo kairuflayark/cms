@@ -6,20 +6,10 @@
     </div>
     <div class="panel-body">
                 <div *ngFor="let contact of this.contacts">
-                    <a href="#" class="list-group-item clearfix" >
-                        <div class="pull-left">
-                        <h4 class="list-group-item-heading">Bro {{ contact.name }}</h4>
-                        <!-- <p class="list-group-item-text">{{ recipe.description }}</p> -->
-                        </div>
-                        <span class="pull-right">
-                            <img 
-                                [src]="contact.imageURL" 
-                                alt="{{ contact.name }}" 
-                                class="img-responsive" 
-                                style="max-height: 50px;"
-                            >
-                        </span>
-                    </a>
+                    <cms-contact-item 
+                    [contact]="contact"
+                    (selectedContactEvent)="onSelected($event)"
+                    ></cms-contact-item>
                 </div>
 
     </div>
