@@ -17,6 +17,7 @@ import { DocumentDetailComponent } from './documents/document-detail/document-de
 import { MessageItemComponent } from './message/message-item/message-item.component';
 import { MessageEditComponent } from './message/message-edit/message-edit.component';
 import { MessageListComponent } from './message/message-list/message-list.component';
+import { DropdownDirective } from './dropdown.directive';
 
 
 
@@ -35,6 +36,7 @@ import { MessageListComponent } from './message/message-list/message-list.compon
     MessageItemComponent,
     MessageEditComponent,
     MessageListComponent,
+    DropdownDirective,
 
 
   ],
