@@ -18,6 +18,8 @@ import { MessageItemComponent } from './message/message-item/message-item.compon
 import { MessageEditComponent } from './message/message-edit/message-edit.component';
 import { MessageListComponent } from './message/message-list/message-list.component';
 import { DropdownDirective } from './dropdown.directive';
+import { DocumentEditComponent } from './documents/document-edit/document-edit.component';
+import { ContactEditComponent } from './contacts/contact-edit/contact-edit.component';
 
 
 
@@ -37,6 +39,8 @@ import { DropdownDirective } from './dropdown.directive';
     MessageEditComponent,
     MessageListComponent,
     DropdownDirective,
+    DocumentEditComponent,
+    ContactEditComponent,
 
 
   ],
