@@ -23,6 +23,8 @@ import { ContactEditComponent } from './contacts/contact-edit/contact-edit.compo
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import {DragDropModule} from '@angular/cdk/drag-drop';
+import { ContactsFilterPipe } from './contacts/contacts-filter.pipe';
+import { HttpClientModule } from '@angular/common/http'
 
 
 
@@ -47,6 +49,7 @@ import {DragDropModule} from '@angular/cdk/drag-drop';
     DropdownDirective,
     DocumentEditComponent,
     ContactEditComponent,
+    ContactsFilterPipe,
 
 
   ],
@@ -56,7 +59,8 @@ import {DragDropModule} from '@angular/cdk/drag-drop';
     ReactiveFormsModule,
     AppRoutingModule,
     NoopAnimationsModule,
-    DragDropModule
+    DragDropModule,
+    HttpClientModule 
 
   ],
   providers: [],

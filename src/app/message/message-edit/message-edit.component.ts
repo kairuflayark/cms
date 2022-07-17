@@ -15,7 +15,7 @@ export class MessageEditComponent implements OnInit {
   
   subject:string = ''
   msgText:string = ''
-  currentSender:string = "James Call"
+  currentSender:string = "0"
 
 
   constructor(private messageService:MessagesService) { }

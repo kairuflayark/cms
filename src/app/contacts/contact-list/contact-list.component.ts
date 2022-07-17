@@ -12,6 +12,7 @@ export class ContactListComponent implements OnInit, OnDestroy {
 
 
   contacts: Contact[] = []
+  term:string = ""
   private cChangeSub!: Subscription
 
   constructor(
@@ -19,7 +20,7 @@ export class ContactListComponent implements OnInit, OnDestroy {
     ) {}
   
   ngOnInit() {
-    this.contacts = this.contactService.getContacts()
+    this.contactService.getContacts()
     this.contactService.contactChangedEvent.subscribe( (contacts:Contact[]) => {this.contacts = contacts}
     )
     this.cChangeSub = this.contactService.contactListChangedEvent.subscribe(
@@ -35,6 +36,10 @@ export class ContactListComponent implements OnInit, OnDestroy {
 
     this.contactService.contactSelectedEvent.emit(contact)
     
+  }
+
+  search(value:string){
+    this.term = value
   }
 
 }
