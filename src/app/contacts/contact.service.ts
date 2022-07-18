@@ -49,7 +49,7 @@ export class ContactService {
     if (!contact) {
         return;
     }
-    const pos = this.contacts.indexOf(contact);
+    const pos = this.contacts.findIndex(cont => {return cont.id == contact.id});
     if (pos < 0) {
         return;
     }
@@ -87,7 +87,7 @@ export class ContactService {
     if (newContact == null || originalContact == null) {
       return
     }
-    let pos = this.contacts.indexOf(originalContact)
+    const pos = this.contacts.findIndex(cont => {return cont.id == originalContact.id});
     if (pos < 0){
       return
     }

@@ -45,10 +45,15 @@ export class DocumentService {
 
   deleteDocument(document:Document) {
     if (!document) {
+
+      
         return;
     }
-    const pos = this.documents.indexOf(document);
+
+    
+    const pos = this.documents.findIndex(doc => {return doc.id == document.id});
     if (pos < 0) {
+
         return;
     }
     this.http.delete('http://localhost:3000/documents/' +document.id)
@@ -85,7 +90,7 @@ export class DocumentService {
     if (newDocument == null || originalDocument == null) {
       return
     }
-    let pos = this.documents.indexOf(originalDocument)
+    const pos = this.documents.findIndex(doc => {return doc.id == originalDocument.id});
     if (pos < 0){
       return
     }

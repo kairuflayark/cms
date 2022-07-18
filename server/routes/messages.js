@@ -47,12 +47,16 @@ router.get('/:id', (req, res, next) => {
 });
 
 router.post('/', (req, res, next) => {
+    const sender = req.body.sender
+    console.log(sender);
     const maxMessageId = sequenceGenerator.nextId('messages');
 
     Contact.findOne({ 
         "id": req.body.sender
     })
     .then(contact =>{
+
+        console.log(sender);
         const message = new Message({
             id: maxMessageId,
             subject: req.body.subject,
@@ -62,14 +66,20 @@ router.post('/', (req, res, next) => {
     
         message.save()
             .then(createdMessage => {
-
-                createdMessage.sender = req.body.sender
-                console.log();
+                console.log(sender);
+                let newMessage = {
+                    id: createdMessage.id,
+                    subject: createdMessage.subject,
+                    msgText: createdMessage.msgText,
+                    sender: sender
+                }
+                
+                console.log(newMessage);
                 res
                     .status(201)
                     .json({
                         code:"Message Added Successfully",
-                        message: createdMessage
+                        message: newMessage
                     });
             })
             .catch(error => {
