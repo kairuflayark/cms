@@ -12,7 +12,7 @@ import { ContactService } from '../contact.service';
 })
 export class ContactDetailComponent implements OnInit {
 
-  contact!:Contact 
+  contact:Contact = new Contact('','','','','',null)
   nativeWindow: any
 
 
@@ -28,7 +28,8 @@ export class ContactDetailComponent implements OnInit {
         console.log(params);
         
         //fix that undefined
-        this.contact = this.contactService.getContact(params['id'])!
+        this.contactService.getContact(params['id']).subscribe( res => 
+          this.contact = res.contact)
       }
     );
   }

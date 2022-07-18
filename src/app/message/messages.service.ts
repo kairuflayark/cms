@@ -15,60 +15,102 @@ export class MessagesService {
   constructor( private http: HttpClient) { 
   }
 
+  sortAndSend(){
+
+    this.messages.sort((a,b) => Number(a.id) > Number(b.id) ? 1:Number(b.id) > Number(a.id) ? -1 : 0)
+    this.messageListChangedEvent.next(this.messages.slice())
+  }
+
   getMessages(){
-    this.http.get("https://jc-cms-790cd-default-rtdb.firebaseio.com/messages.json")
-      .subscribe((data:any) =>{
-        console.log(data);
+
+    this.http.get<{ message:string, messages:any}>("http://localhost:3000/messages")
+      .subscribe((responseData) =>{
         this.messages = []
-        for (let item of data){
-          let newMessage = new Message(item.id, item.subject, item.msgText, item.sender)
-          this.messages.push(newMessage)
+        for (let message of responseData.messages){
+          console.log();
+          
+          this.messages.push(new Message(message.id, message.subject, message.msgText, message.sender.id))
         }
-        this.maxMessageId = this.getMaxID()
-        this.messages.sort((a,b) => a.id > b.id ? 1:b.id > a.id ? -1 : 0)
-        this.messageListChangedEvent.next(this.messages.slice())
+
+        this.sortAndSend()
       },
       (error:any) => { console.log(error);
       })
 
   }
 
-  storeMessages(){
-    const httpOptions = {
+
+
+  getMessage(id:string){
+    return this.http.get<{ code:string, message:Message[]}>('http://localhost:3000/messages/' +id)
+  }
+    //how 
+
+
+  deleteMessage(message:Message) {
+    if (!message) {
+        return;
+    }
+    const pos = this.messages.indexOf(message);
+    if (pos < 0) {
+        return;
+    }
+    this.http.delete('http://localhost:3000/messages/' +message.id)
+      .subscribe(() => {
+        this.messages.splice(pos, 1);
+        this.sortAndSend()
+      })
+
+
+  }
+
+  addMessage(newMessage:Message){
+    if (newMessage == null) {
+      return
+    }
+
+    const headers = {
+      headers: new HttpHeaders({
+        'Content-Type':  'application/json',
+      })
+    }
+    newMessage.id = ''
+
+    return this.http.post<{ code:string, message: Message}>("http://localhost:3000/messages/", 
+    newMessage, headers)
+    .subscribe((responseData) => { 
+      this.messages.push(responseData.message)
+      this.sortAndSend()
+    })
+  
+  }
+  
+  updateMessage(originalMessage: Message, newMessage: Message) {
+    if (newMessage == null || originalMessage == null) {
+      return
+    }
+    let pos = this.messages.indexOf(originalMessage)
+    if (pos < 0){
+      return
+    }
+
+    newMessage.id = originalMessage.id
+
+    const headers = {
       headers: new HttpHeaders({
         'Content-Type':  'application/json',
       })
     }
 
-      return this.http.put<Message[]>("https://jc-cms-790cd-default-rtdb.firebaseio.com/messages.json", 
-        this.messages, httpOptions)
-        .subscribe(() => this.messageListChangedEvent.next(this.messages.slice()))
-
-
+    this.http.put('http://localhost:3000/messages/' + originalMessage.id, newMessage, headers)
+      .subscribe(
+        () => {
+          this.messages[pos] = newMessage;
+          this.sortAndSend()
+        }
+      )
 
   }
 
-  getMaxID():number {
-    let maxId = 0
-  
-    for (let message of this.messages){
-      let currentId = Number(message.id)
-      if (currentId > maxId){
-        maxId = currentId
-      }
-    }
-    return maxId
-   }
-  getMessage(id:string):Message | undefined{
-    return this.messages.find((message) =>  message.id === id)
-  }
-
-  addMessage(message:Message){
-    message.id = String(this.maxMessageId++)
-    this.messages.push(message)
-    console.log(this.messages);
-    
-    this.storeMessages()
-  }
-
+        
 }

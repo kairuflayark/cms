@@ -28,7 +28,7 @@ export class DocumentDetailComponent implements OnInit {
         console.log(params);
         
         //fix that undefined
-        this.document = this.documentService.getDocument(params['id'])!
+        this.documentService.getDocument(params['id']).subscribe( res => this.document = res.document)
       }
     );
   }

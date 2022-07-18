@@ -30,12 +30,15 @@ export class DocumentEditComponent implements OnInit {
         this.editMode = false;
         return;
       }
-      this.originalDocument = this.documentService.getDocument(id)!
-      if (this.originalDocument == null){
-        return
-      }
-      this.editMode = true;
-      this.document = {...this.originalDocument}
+      this.documentService.getDocument(params['id']).subscribe( res => {
+        this.document = res.document
+        if (this.originalDocument == null){
+          return
+        }
+        this.editMode = true;
+        this.document = {...this.originalDocument}
+      })
+      
     })
   }
 
